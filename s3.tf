@@ -21,3 +21,7 @@ POLICY
     error_document = "index.html"
   }
 }
+
+resource "aws_s3_bucket" "junction_sam_bucket" {
+  bucket = "junction-sam-bucket"
+}
