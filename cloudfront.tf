@@ -46,10 +46,11 @@ resource "aws_cloudfront_distribution" "junction_distribution" {
 
 resource "aws_cloudfront_distribution" "junction_api_distribution" {
   enabled = true
+  aliases = ["api.junction.sangmin.in"]
 
   origin {
     domain_name = "2i816qd5le.execute-api.ap-northeast-2.amazonaws.com"
-    origin_id = "2i816qd5le.execute-api.ap-northeast-2.amazonaws.com"
+    origin_id = "api.junction.sangmin.in"
     custom_origin_config {
       http_port = 80
       https_port = 443
@@ -63,7 +64,7 @@ resource "aws_cloudfront_distribution" "junction_api_distribution" {
     compress = true
     allowed_methods = ["HEAD", "GET"]
     cached_methods = ["HEAD", "GET"]
-    target_origin_id = "2i816qd5le.execute-api.ap-northeast-2.amazonaws.com"
+    target_origin_id = "api.junction.sangmin.in"
     min_ttl = 0
     default_ttl = 86400
     max_ttl = 31536000
@@ -82,7 +83,7 @@ resource "aws_cloudfront_distribution" "junction_api_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.sangminout_certi.arn
+    acm_certificate_arn = aws_acm_certificate.junction_sangmin_certi.arn
     ssl_support_method = "sni-only"
   }
 }
