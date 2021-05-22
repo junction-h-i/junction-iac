@@ -43,3 +43,46 @@ resource "aws_cloudfront_distribution" "junction_distribution" {
     ssl_support_method = "sni-only"
   }
 }
+
+resource "aws_cloudfront_distribution" "junction_api_distribution" {
+  enabled = true
+
+  origin {
+    domain_name = "2i816qd5le.execute-api.ap-northeast-2.amazonaws.com"
+    origin_id = "2i816qd5le.execute-api.ap-northeast-2.amazonaws.com"
+    custom_origin_config {
+      http_port = 80
+      https_port = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+    }
+  }
+
+  default_cache_behavior {
+    viewer_protocol_policy = "redirect-to-https"
+    compress = true
+    allowed_methods = ["HEAD", "GET"]
+    cached_methods = ["HEAD", "GET"]
+    target_origin_id = "2i816qd5le.execute-api.ap-northeast-2.amazonaws.com"
+    min_ttl = 0
+    default_ttl = 86400
+    max_ttl = 31536000
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    acm_certificate_arn = aws_acm_certificate.sangminout_certi.arn
+    ssl_support_method = "sni-only"
+  }
+}
