@@ -46,3 +46,7 @@ resource "aws_s3_bucket" "junction_sam_bucket" {
 }
 POLICY
 }
+
+resource "aws_s3_bucket" "junction_tf_bucket" {
+  bucket = "junction-tf-bucket"
+}
